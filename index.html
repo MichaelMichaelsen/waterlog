@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="logApp">
+<head>
+<meta charset="utf-8">
+<title>Log data</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <script>
+      var countryApp = angular.module('logApp', []);
+      countryApp.controller('logCtrl', function ($scope, $http){
+        $http.get('data/Vandforbrug2013-2015.json').success(function(data) {
+          $scope.logdata = data;
+          //console.log(data);
+        });
+      });
+    </script>
+<style>
+
+table {
+  border: solid thin; 
+  border-collapse: collapse;
+}
+
+td, th, input {
+  width: 4rem;
+  height: 1rem;
+  border: 1px solid #ccc;
+  text-align: right;
+}
+
+th {
+  background: lightblue;
+  border-color: white;
+  text-align: center;
+}  
+</style>
+</head>
+<body ng-controller="logCtrl">
+<h1>Waterlog</h1>
+
+
+
+<table border="0" cellpadding="2" cellspacing="0">
+	<tr>
+		<th class="tablehead">Dato</td>
+		<th class="tablehead">Forhus</td>
+		<th class="tablehead">Baghus</td>
+		<th class="tablehead">Total</td>
+	</tr>
+	<tr ng-repeat="logentry in logdata">
+        <td>{{logentry.Dato   | date}}</td>
+        <td align="right">{{logentry.Baghus | number}}</td>
+        <td align="right">{{logentry.Forhus | number}}</td>
+        <td align="right">{{logentry.Total  | number}}</td>
+     </tr>
+</table>
+<input ng-model="nydato"   type="date"  >
+<input ng-model="nybaghus" type="number">
+<input ng-model="nyforhus" type="number">
+<div>{{nybaghus}} + {{nyforhus}}</div>
+
+</body>
+</html>
